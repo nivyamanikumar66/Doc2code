@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-darkbg-950 text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-white;
+  }
+}
+
+/* Custom Scrollbar for modern developer look */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-darkbg-950;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-darkbg-700 rounded-md hover:bg-brand-500 transition-colors duration-200;
+}
+
+/* Glowing effects */
+.glow-card {
+  box-shadow: 0 0 15px -3px rgba(99, 102, 241, 0.08), 0 0 6px -2px rgba(99, 102, 241, 0.05);
+}
+
+.glow-card-hover:hover {
+  box-shadow: 0 0 25px -3px rgba(99, 102, 241, 0.15), 0 0 10px -2px rgba(99, 102, 241, 0.1);
+  @apply border-brand-500/50 transition-all duration-300;
+}
+
+/* Pulse animation for loading indicator */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    box-shadow: 0 0 15px 0px rgba(99, 102, 241, 0.2);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 25px 4px rgba(99, 102, 241, 0.4);
+  }
+}
+
+.loading-glow {
+  animation: pulseGlow 2s infinite;
+}
+
+/* Custom table responsive container styling */
+.custom-table-container {
+  @apply overflow-x-auto border border-darkbg-700 rounded-lg bg-darkbg-900/50;
+}
