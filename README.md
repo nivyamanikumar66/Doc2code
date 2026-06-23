@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Smart DevTool for API Integration
 
 Smart DevTool is a full-stack developer utility that allows developers to paste an API documentation URL and instantly generate an interactive integration dashboard, HTTP method instructions, and a copy-pasteable SDK wrapper client in Python or JavaScript tailored for their specific use case.
@@ -88,3 +89,7 @@ You can verify separate backend pieces using helper test commands inside the `ba
 
 - Run `node test_scraper.js` to verify raw documentation URL extraction.
 - Run `node test_openai.js` to check API connector schemas or mock generation.
+=======
+# Doc2code
+AI-powered API documentation analyzer that converts API docs into integration guides and ready-to-use wrapper code.
+>>>>>>> 9feea6d38be943c71a71768f067711d1a3e8d492
