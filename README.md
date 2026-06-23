@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Smart DevTool for API Integration
 
 Smart DevTool is a full-stack developer utility that allows developers to paste an API documentation URL and instantly generate an interactive integration dashboard, HTTP method instructions, and a copy-pasteable SDK wrapper client in Python or JavaScript tailored for their specific use case.
