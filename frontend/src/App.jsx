@@ -22,7 +22,14 @@ export default function App() {
     return () => clearInterval(interval);
   }, [loading]);
 
-  const handleAnalyze = async ({ url, language, useCase }) => {
+  const handleAnalyze = async ({
+  inputType,
+  url,
+  docText,
+  pdfFile,
+  language,
+  useCase
+}) => {
     setLoading(true);
     setError(null);
     setData(null);
@@ -35,7 +42,13 @@ export default function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ url, language, useCase }),
+        body: JSON.stringify({
+  inputType,
+  url,
+  docText,
+  language,
+  useCase
+}),
       });
 
       const result = await response.json();

@@ -1,8 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import analyzeRouter from './routes/analyze.js';
 
+import analyzeRouter from './routes/analyze.js';
+import chatRouter from './routes/chat.js';
 // Load environment variables
 dotenv.config();
 
@@ -24,8 +25,12 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Smart DevTool Backend is running' });
 });
 
+
 // Bind Analysis Routes
 app.use('/api/analyze', analyzeRouter);
+
+// Bind Chatbot Route
+app.use('/api/chat', chatRouter);
 
 // Global Error Handler
 app.use((err, req, res, next) => {

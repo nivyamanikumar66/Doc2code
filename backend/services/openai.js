@@ -1,4 +1,4 @@
-import { OpenAI } from 'openai';
+import { GoogleGenAI } from "@google/genai";
 
 /**
  * Generates an API analysis using OpenAI based on scraped documentation text, use case, and selected language.
@@ -11,14 +11,16 @@ import { OpenAI } from 'openai';
  * @returns {Promise<object>} Parsed JSON analysis results
  */
 export async function analyzeDocumentation(url, scrapedText, language, useCase) {
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
 
   if (!apiKey || apiKey.trim() === '' || apiKey.startsWith('your_')) {
     console.log('OpenAI API key not set or invalid. Falling back to mock analysis.');
     return generateMockAnalysis(url, language, useCase);
   }
 
-  const openai = new OpenAI({ apiKey });
+  const ai = new GoogleGenAI({
+  apiKey,
+});
 
   const systemPrompt = `You are an expert developer assistant specialized in understanding API documentation, writing clean client libraries, and explaining API integrations.
 Your task is to analyze the provided API documentation text and generate a structured JSON analysis.
@@ -77,18 +79,13 @@ ${scrapedText}
 ---`;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-      ],
-      response_format: { type: 'json_object' },
-      temperature: 0.2,
+    const response = await ai.models.generateContent({
+    model: "gemini-2.5-flash",
+    contents: `${systemPrompt}\n\n${userPrompt}`,
     });
 
-    const resultText = response.choices[0].message.content;
-    return JSON.parse(resultText);
+  const resultText = response.text;
+  return JSON.parse(resultText);
   } catch (error) {
     console.error('Error calling OpenAI API:', error.message);
     console.log('Falling back to mock analysis due to OpenAI API error.');
@@ -537,6 +534,25 @@ class APIClientWrapper {
       methodGuide: 'Use POST when writing, modifying, or creating data on the remote server (e.g. creating records). Use GET to read or query existing resources without modifying state.',
       integrationSteps: steps
     },
-    wrapperCode: code
+    wrapperCode: code,
+    beginnerView: {
+  authExplanation:
+    `Think of ${authType} as your personal pass to use this API. ${authDetails}`,
+
+  endpointsSimplified: endpoints.map(ep => ({
+    method: ep.method,
+    simpleName: ep.path,
+    simpleDescription: ep.purpose,
+    whyItIsUsed:
+      `This API is used because you want to ${ep.purpose.toLowerCase()}.`
+  })),
+
+  whatToDoNext: steps,
+
+  workflowSteps: steps.map((step, index) => ({
+    title: `Step ${index + 1}`,
+    description: step
+  }))
+}
   };
 }
